@@ -848,19 +848,31 @@ code {
   }
 
   .section {
-    padding: 72px 0;
+    padding: 48px 0;
   }
 
   .hero {
-    padding: 120px 24px 72px;
+    padding: 88px 24px 48px;
   }
 
   .hero h1 {
     font-size: 2.25rem;
   }
 
+  .hero-tagline {
+    margin-bottom: 24px;
+  }
+
+  .hero-actions {
+    margin-bottom: 20px;
+  }
+
   .section-title {
     font-size: 1.75rem;
+  }
+
+  .section-subtitle {
+    margin-bottom: 32px;
   }
 }
 
@@ -870,22 +882,71 @@ code {
     grid-template-columns: 1fr;
   }
 
+  .section {
+    padding: 40px 0;
+  }
+
+  .hero {
+    padding: 80px 20px 36px;
+  }
+
   .hero h1 {
     font-size: 1.85rem;
+    margin-bottom: 12px;
   }
 
   .hero-tagline {
     font-size: 1rem;
+    margin-bottom: 20px;
   }
 
   .hero-actions {
     flex-direction: column;
     align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .hero-badge {
+    margin-bottom: 16px;
+  }
+
+  .section-subtitle {
+    margin-bottom: 28px;
   }
 
   .btn {
     width: 100%;
     justify-content: center;
+    padding: 12px 24px;
+  }
+
+  .flow-step {
+    padding: 20px 20px;
+    min-width: unset;
+  }
+
+  .feature-card {
+    padding: 24px 20px;
+  }
+
+  .setup-step {
+    padding: 20px 0;
+    gap: 16px;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .footer {
+    padding: 36px 0 24px;
+  }
+
+  .footer-inner {
+    gap: 24px;
+    margin-bottom: 24px;
   }
 
   .footer-links {
