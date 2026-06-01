@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Flow — Ship through dev. Keep main clean.</title>
+  <meta name="description" content="A lightweight Git workflow designed to keep main stable while integrating completed work through a dedicated dev branch. Simpler than Git Flow, more structured than GitHub Flow.">
+  <meta name="theme-color" content="#16a34a">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Clean Flow — Git Workflow">
+  <meta property="og:description" content="Ship through dev. Keep main clean. A lightweight Git workflow with main, dev, and feature branches.">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">🌿 Clean Flow</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#model">Model</a></li>
+        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#naming">Naming</a></li>
+        <li><a href="#strategy">Strategy</a></li>
+        <li><a href="#comparison">Compare</a></li>
+        <li><a href="https://github.com/wgtechlabs/clean-flow" target="_blank" rel="noopener" class="nav-github">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Open Source &middot; MIT</div>
+      <h1>Clean Flow <span class="hero-emoji">🌿</span></h1>
+      <p class="hero-tagline">A lightweight Git workflow designed to keep the main branch stable while allowing completed work to integrate through a dedicated dev branch. Simpler than Git Flow, more structured than GitHub Flow.</p>
+      <div class="hero-actions">
+        <a href="https://github.com/wgtechlabs/clean-flow" target="_blank" rel="noopener" class="btn btn-primary">Get Started</a>
+        <a href="https://github.com/wgtechlabs/clean-flow/blob/main/SPECIFICATION.md" target="_blank" rel="noopener" class="btn btn-secondary">Read the Spec</a>
+      </div>
+      <div class="hero-philosophy">
+        <span>Ship through dev. Keep main clean.</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Core Model -->
+  <section class="section" id="model">
+    <div class="container">
+      <h2 class="section-title">The Core Model</h2>
+      <p class="section-subtitle">Three branch types. One clear flow. That's it.</p>
+      <div class="flow-diagram">
+        <div class="flow-step">
+          <div class="flow-icon">🔀</div>
+          <div class="flow-label">feature/*</div>
+          <div class="flow-desc">Short-lived branches for new work</div>
+        </div>
+        <div class="flow-arrow">
+          <span class="flow-arrow-label">squash merge</span>
+          <span class="flow-arrow-icon">&rarr;</span>
+        </div>
+        <div class="flow-step flow-step-dev">
+          <div class="flow-icon">🔧</div>
+          <div class="flow-label">dev</div>
+          <div class="flow-desc">Integration branch</div>
+        </div>
+        <div class="flow-arrow">
+          <span class="flow-arrow-label">merge commit</span>
+          <span class="flow-arrow-icon">&rarr;</span>
+        </div>
+        <div class="flow-step flow-step-main">
+          <div class="flow-icon">🏠</div>
+          <div class="flow-label">main</div>
+          <div class="flow-desc">Stable, production-ready</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Branch Roles -->
+  <section class="section section-alt" id="branches">
+    <div class="container">
+      <h2 class="section-title">Branch Roles</h2>
+      <p class="section-subtitle">Every branch has a clear purpose.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🏠</div>
+          <h3>main</h3>
+          <p>The stable branch. Contains production-ready or release-ready code. Changes only arrive here from <code>dev</code>. Never commit directly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h3>dev</h3>
+          <p>The integration branch. Collects completed feature work before release. Feature branches are created from here and PRs target here.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔀</div>
+          <h3>feature/*</h3>
+          <p>Short-lived branches for new features, bug fixes, docs, tests, refactoring, and maintenance. Deleted after merge.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow -->
+  <section class="section" id="workflow">
+    <div class="container">
+      <h2 class="section-title">Quick Start</h2>
+      <p class="section-subtitle">Get up and running with Clean Flow in seven steps.</p>
+      <div class="setup-steps">
+        <div class="setup-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Sync the Latest Dev</h3>
+            <p>Make sure your local dev branch is up to date.</p>
+            <code>git checkout dev && git pull origin dev</code>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Create a Feature Branch</h3>
+            <p>Feature branches always start from dev.</p>
+            <code>git checkout -b feature/user-authentication</code>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Work and Commit</h3>
+            <p>Keep commits focused and related to one logical change.</p>
+            <code>git add . && git commit -m "add user authentication"</code>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Keep Updated</h3>
+            <p>Rebase against the latest dev before submitting.</p>
+            <code>git fetch origin && git rebase origin/dev</code>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <h3>Open a PR into Dev</h3>
+            <p>Push and open a pull request targeting <strong>dev</strong>.</p>
+            <code>git push -u origin feature/user-authentication</code>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-number">6</div>
+          <div class="step-content">
+            <h3>Squash Merge</h3>
+            <p>When approved, squash merge into dev. Multiple commits become one clean logical commit.</p>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-number">7</div>
+          <div class="step-content">
+            <h3>Promote to Main</h3>
+            <p>When dev is stable, merge dev into main using a merge commit.</p>
+            <code>git checkout main && git merge dev && git push origin main</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Branch Naming -->
+  <section class="section section-alt" id="naming">
+    <div class="container">
+      <h2 class="section-title">Branch Naming</h2>
+      <p class="section-subtitle">Short, descriptive, and prefixed by purpose.</p>
+      <div class="naming-grid">
+        <div class="naming-card">
+          <div class="naming-prefix">feature/</div>
+          <div class="naming-use">New features and functionality</div>
+          <code>feature/user-authentication</code>
+        </div>
+        <div class="naming-card">
+          <div class="naming-prefix">fix/</div>
+          <div class="naming-use">Bug fixes</div>
+          <code>fix/cart-total-rounding</code>
+        </div>
+        <div class="naming-card">
+          <div class="naming-prefix">docs/</div>
+          <div class="naming-use">Documentation changes</div>
+          <code>docs/installation-guide</code>
+        </div>
+        <div class="naming-card">
+          <div class="naming-prefix">chore/</div>
+          <div class="naming-use">Maintenance and dependency updates</div>
+          <code>chore/update-dependencies</code>
+        </div>
+        <div class="naming-card">
+          <div class="naming-prefix">test/</div>
+          <div class="naming-use">Test additions and changes</div>
+          <code>test/payment-service</code>
+        </div>
+        <div class="naming-card">
+          <div class="naming-prefix">refactor/</div>
+          <div class="naming-use">Code refactoring</div>
+          <code>refactor/api-client</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Merge Strategy -->
+  <section class="section" id="strategy">
+    <div class="container">
+      <h2 class="section-title">Merge Strategy</h2>
+      <p class="section-subtitle">Two simple rules for a clean history.</p>
+      <div class="strategy-grid">
+        <div class="strategy-card">
+          <div class="strategy-direction">Feature &rarr; dev</div>
+          <div class="strategy-type">Squash Merge</div>
+          <div class="strategy-visual">
+            <span class="commit">A</span>
+            <span class="commit-arrow">&rarr;</span>
+            <span class="commit">B</span>
+            <span class="commit-arrow">&rarr;</span>
+            <span class="commit">C</span>
+            <span class="becomes">&nbsp;becomes&nbsp;</span>
+            <span class="commit commit-squash">S</span>
+          </div>
+          <p>Keeps feature history compact. Removes noisy WIP commits. One logical commit per feature.</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strategy-direction">dev &rarr; main</div>
+          <div class="strategy-type">Merge Commit</div>
+          <div class="strategy-visual">
+            <span class="commit commit-dev">dev</span>
+            <span class="merge-arrow">&nbsp;&mdash;merge&mdash;&gt;&nbsp;</span>
+            <span class="commit commit-main">main</span>
+          </div>
+          <p>Preserves the boundary between integration and stable history. Makes promotion clear.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="section section-alt" id="comparison">
+    <div class="container">
+      <h2 class="section-title">How It Compares</h2>
+      <p class="section-subtitle">Clean Flow sits between GitHub Flow and Git Flow.</p>
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>GitHub Flow</th>
+              <th class="highlight">Clean Flow</th>
+              <th>Git Flow</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-label">Integration branch</td>
+              <td>None</td>
+              <td class="highlight"><strong>dev</strong></td>
+              <td>develop</td>
+            </tr>
+            <tr>
+              <td class="row-label">Release branches</td>
+              <td>No</td>
+              <td class="highlight"><strong>No</strong></td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td class="row-label">Hotfix branches</td>
+              <td>No</td>
+              <td class="highlight"><strong>No</strong></td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td class="row-label">Feature target</td>
+              <td>main</td>
+              <td class="highlight"><strong>dev</strong></td>
+              <td>develop</td>
+            </tr>
+            <tr>
+              <td class="row-label">Complexity</td>
+              <td>Low</td>
+              <td class="highlight"><strong>Medium</strong></td>
+              <td>High</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Integration -->
+  <section class="section" id="ai">
+    <div class="container">
+      <h2 class="section-title">AI Integration</h2>
+      <p class="section-subtitle">Teach your AI assistant Clean Flow in one copy-paste.</p>
+      <div class="ai-grid">
+        <div class="ai-card">
+          <h3>GitHub Copilot</h3>
+          <p>Add branch workflow instructions to your project.</p>
+          <div class="ai-code">
+            <code>mkdir -p .github/instructions<br>curl -o .github/instructions/copilot.instructions.md \<br>&nbsp;&nbsp;https://raw.githubusercontent.com/wgtechlabs/clean-flow/main/examples/copilot.instructions.md</code>
+          </div>
+        </div>
+        <div class="ai-card">
+          <h3>AI Agents</h3>
+          <p>For Codex, Claude, Cursor, Windsurf, and more.</p>
+          <div class="ai-code">
+            <code>curl -o AGENTS.md \<br>&nbsp;&nbsp;https://raw.githubusercontent.com/wgtechlabs/clean-flow/main/examples/AGENTS.md</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rules -->
+  <section class="section section-alt" id="rules">
+    <div class="container">
+      <h2 class="section-title">The Rules</h2>
+      <p class="section-subtitle">Everything you need to remember.</p>
+      <div class="rules-list">
+        <div class="rule-item">Keep <code>main</code> stable</div>
+        <div class="rule-item">Use <code>dev</code> as the integration branch</div>
+        <div class="rule-item">Create feature branches from <code>dev</code></div>
+        <div class="rule-item">Target pull requests to <code>dev</code></div>
+        <div class="rule-item">Squash merge feature branches into <code>dev</code></div>
+        <div class="rule-item">Merge <code>dev</code> into <code>main</code> when stable</div>
+        <div class="rule-item">Delete feature branches after merge</div>
+        <div class="rule-item">Never commit directly to <code>main</code></div>
+        <div class="rule-item">Avoid direct commits to <code>dev</code></div>
+        <div class="rule-item">Keep feature branches short-lived</div>
+        <div class="rule-item">Sync before starting new work</div>
+        <div class="rule-item">Update branches before submitting</div>
+        <div class="rule-item">Protect <code>main</code> and <code>dev</code></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo">🌿 Clean Flow</span>
+          <p>Ship through dev. Keep main clean.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Project</h4>
+            <ul>
+              <li><a href="https://github.com/wgtechlabs/clean-flow" target="_blank" rel="noopener">GitHub</a></li>
+              <li><a href="https://github.com/wgtechlabs/clean-flow/blob/main/SPECIFICATION.md" target="_blank" rel="noopener">Specification</a></li>
+              <li><a href="https://github.com/wgtechlabs/clean-flow/blob/main/QUICK-REFERENCE.md" target="_blank" rel="noopener">Quick Reference</a></li>
+              <li><a href="https://github.com/wgtechlabs/clean-flow/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>WG Tech Labs</h4>
+            <ul>
+              <li><a href="https://github.com/wgtechlabs" target="_blank" rel="noopener">GitHub Org</a></li>
+              <li><a href="https://wgtechlabs.com" target="_blank" rel="noopener">Website</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> <a href="https://github.com/wgtechlabs" target="_blank" rel="noopener">WG Tech Labs</a>. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
