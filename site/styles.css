@@ -29,6 +29,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-height);
+  overflow-x: hidden;
 }
 
 body {
@@ -38,6 +39,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a {
@@ -56,12 +58,14 @@ code {
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.875em;
+  word-break: break-word;
 }
 
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 24px;
+  overflow-x: hidden;
 }
 
 /* === Navigation === */
@@ -292,6 +296,8 @@ code {
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .flow-step {
@@ -437,6 +443,8 @@ code {
 .step-content code {
   display: inline-block;
   margin-top: 4px;
+  word-break: break-all;
+  white-space: pre-wrap;
 }
 
 /* === Branch Naming === */
@@ -515,6 +523,7 @@ code {
   gap: 8px;
   margin-bottom: 20px;
   flex-wrap: wrap;
+  overflow-x: hidden;
 }
 
 .commit {
@@ -571,6 +580,8 @@ code {
 /* === Comparison Table === */
 .comparison-table-wrapper {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
 }
 
 .comparison-table {
@@ -656,6 +667,8 @@ code {
   font-size: 0.8rem;
   line-height: 1.8;
   color: var(--text-secondary);
+  word-break: break-all;
+  white-space: pre-wrap;
 }
 
 /* === Rules List === */
