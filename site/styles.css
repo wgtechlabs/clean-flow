@@ -36,6 +36,13 @@ html {
   html {
     scroll-behavior: auto;
   }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 body {
@@ -811,11 +818,11 @@ code {
 }
 
 @media (max-width: 768px) {
-  .nav-toggle {
+  .js .nav-toggle {
     display: flex;
   }
 
-  .nav-links {
+  .js .nav-links {
     display: none;
     position: absolute;
     top: 100%;
@@ -828,19 +835,19 @@ code {
     gap: 16px;
   }
 
-  .nav-links.active {
+  .js .nav-links.active {
     display: flex;
   }
 
-  .nav-toggle.active span:nth-child(1) {
+  .js .nav-toggle.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
 
-  .nav-toggle.active span:nth-child(2) {
+  .js .nav-toggle.active span:nth-child(2) {
     opacity: 0;
   }
 
-  .nav-toggle.active span:nth-child(3) {
+  .js .nav-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
   }
 
