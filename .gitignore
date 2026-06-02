@@ -12,6 +12,5 @@ Thumbs.db
 *.log
 
 # Generated files
-site/
 dist/
 build/
