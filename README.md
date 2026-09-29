@@ -14,6 +14,74 @@ A lightweight Git workflow designed to keep the main branch stable while allowin
 
 ---
 
+## Install the agent skill
+
+Use **Clean Flow** on its own, like the standalone
+[Clean Coding](https://github.com/wgtechlabs/clean-coding) and
+[Clean Code Review](https://github.com/wgtechlabs/clean-code-review) plugins:
+
+```sh
+codex plugin marketplace add wgtechlabs/clean-flow
+codex plugin add clean-flow@clean-flow
+```
+
+Start a new chat and invoke `$clean-flow`, for example:
+
+```text
+$clean-flow prepare a feature branch and explain the correct PR target
+```
+
+For another Agent Skills-compatible host, load the entire
+[`skills/clean-flow/`](skills/clean-flow/SKILL.md) folder using that host's skill
+installation mechanism. All essential instructions are included; no other
+Clean skill is required. The host still needs the tools and access used by the
+requested operation. Installation does not authorize repository changes.
+
+[Clean Workflow](https://github.com/wgtechlabs/clean-workflow) is the broader
+bundle for development, review, and Git/delivery guidance. Use this standalone
+plugin when you only want Clean Flow. The new skill is maintained here;
+adding its released versions to that bundle is separate downstream work.
+
+### Updates and development installation
+
+To refresh a Git marketplace and reinstall its plugin:
+
+```sh
+codex plugin marketplace upgrade clean-flow
+codex plugin remove clean-flow@clean-flow
+codex plugin add clean-flow@clean-flow
+```
+
+Start a new chat after updating. The plugin version in
+`.codex-plugin/plugin.json` versions the installable package separately from
+the convention's specification version. Maintainers should bump the package
+version when releasing skill changes; this addition does not publish a release
+or add automated release infrastructure.
+
+Before a change reaches the default branch, test its feature branch with:
+
+```sh
+codex plugin marketplace add wgtechlabs/clean-flow --ref BRANCH_OR_TAG
+codex plugin add clean-flow@clean-flow
+```
+
+For local development, replace the marketplace source with the absolute path
+to this checkout. Replace `BRANCH_OR_TAG` with the ref to test. Remove an existing
+same-named marketplace before switching sources. See
+[skill verification](tests/skill-scenarios.md) for installation checks and
+representative behavior scenarios.
+
+### Skill ownership
+
+This repository is the canonical source for `clean-flow`. Maintain its skill
+alongside [SPECIFICATION.md](SPECIFICATION.md), which remains authoritative.
+Keep instructions self-contained and check examples against the specification.
+Downstream bundles should import a released skill directory and record its
+version and source commit, rather than maintain independent edits. A bundle
+can lag until its update is reviewed and merged.
+
+---
+
 ## Why Clean Flow?
 
 Existing Git workflows are either **too simple** or **too complex**:
