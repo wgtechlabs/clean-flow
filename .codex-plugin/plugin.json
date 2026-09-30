@@ -1,0 +1,32 @@
+{
+  "name": "clean-flow",
+  "version": "0.1.0",
+  "description": "Guide Git branch preparation, pull requests, and authorized dev-to-main promotions.",
+  "author": {
+    "name": "WG Technology Labs",
+    "url": "https://github.com/wgtechlabs"
+  },
+  "homepage": "https://github.com/wgtechlabs/clean-flow",
+  "repository": "https://github.com/wgtechlabs/clean-flow",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "workflow",
+    "skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Clean Flow",
+    "shortDescription": "Prepare branches and PRs with Clean Flow",
+    "longDescription": "Guide Git branch preparation, pull requests, and authorized dev-to-main promotions.",
+    "developerName": "WG Technology Labs",
+    "category": "Productivity",
+    "capabilities": [
+      "Instructions"
+    ],
+    "websiteURL": "https://github.com/wgtechlabs/clean-flow",
+    "defaultPrompt": [
+      "Use $clean-flow to prepare a feature branch and explain the correct PR target."
+    ]
+  }
+}
