@@ -14,6 +14,116 @@ A lightweight Git workflow designed to keep the main branch stable while allowin
 
 ---
 
+## Install the agent skill
+
+Install **Clean Flow** as a standalone skill for AI assistants. It includes its
+own instructions and works without Clean Workflow or another Clean skill.
+You can also use the convention manually with the guides below.
+
+### Requirements
+
+Use a Codex version with `codex plugin` support; installation and discovery
+were verified with Codex CLI `0.158.0-alpha.2.1`.
+Git is required for branch operations. GitHub operations also need an authenticated GitHub CLI or integration with access to the target repository.
+
+### Install in Codex
+
+Install the stable version from `main`:
+
+```sh
+codex plugin marketplace add wgtechlabs/clean-flow --ref main
+codex plugin add clean-flow@clean-flow
+codex plugin list --marketplace clean-flow --json
+```
+
+Confirm the plugin is installed and enabled, then start a new chat and invoke
+`$clean-flow`. Installation alone does not authorize repository changes.
+
+### Example requests
+
+```text
+$clean-flow explain the branch and merge model without changing the repository
+
+$clean-flow prepare a feature branch for issue 42 using this repository's rules
+
+$clean-flow check whether dev is ready for promotion to main without merging
+```
+
+The skill follows the target repository's branch policy, preserves unrelated
+work, and checks review requirements before an authorized merge. In adopting
+repositories, feature PRs target `dev` and promotions target `main`.
+
+### Other Agent Skills hosts
+
+Load the entire [`skills/clean-flow/`](skills/clean-flow/SKILL.md) folder using
+your host's skill installation mechanism. The instructions are self-contained;
+the host must still provide the tools required for the requested operation.
+Other vendors' hosts have not been verified in this repository's test record.
+
+[Clean Workflow](https://github.com/wgtechlabs/clean-workflow) provides broader
+development, review, and delivery guidance. Choose this standalone plugin for
+Clean Flow alone. This repository owns the skill; updates to the broader bundle
+are maintained separately.
+
+### Update or remove
+
+Refresh the configured marketplace and reinstall its plugin:
+
+```sh
+codex plugin marketplace upgrade clean-flow
+codex plugin remove clean-flow@clean-flow
+codex plugin add clean-flow@clean-flow
+```
+
+Start a new chat after updating. To uninstall and remove its marketplace:
+
+```sh
+codex plugin remove clean-flow@clean-flow
+codex plugin marketplace remove clean-flow
+```
+
+### Preview development changes
+
+To test `dev` before promotion to `main`, first remove an existing installation
+and same-named marketplace with the commands above, then run:
+
+```sh
+codex plugin marketplace add wgtechlabs/clean-flow --ref dev
+codex plugin add clean-flow@clean-flow
+```
+
+Use another branch or an existing tag instead of `dev` to test a specific ref.
+For local development, use the absolute checkout path as the marketplace source
+and omit `--ref`. Switch back to the stable installation commands after testing.
+See [skill verification](tests/skill-scenarios.md) for recorded installation
+results, behavior scenarios, and verification limits.
+
+The current installable package version is tracked in
+[`.codex-plugin/plugin.json`](.codex-plugin/plugin.json). The version badge at
+the top of this README refers to the convention specification, not the plugin.
+
+### Automated releases
+
+Pushes to `main`, including a merged promotion PR, run the
+[release workflow](.github/workflows/release.yml). It uses the same pinned
+[Release Build Flow Action](https://github.com/wgtechlabs/release-build-flow-action)
+configuration as Clean Coding and Clean Code Review: plan the version, update
+the plugin manifest, then commit `CHANGELOG.md` and publish a tag and GitHub
+Release when a version bump is needed. Existing release tags determine the
+next version; `0.1.0` is the initial version when no tags exist. Other package
+manifests are not synchronized by this workflow.
+
+### Skill ownership
+
+This repository is the canonical source for `clean-flow`. Maintain its skill
+alongside [SPECIFICATION.md](SPECIFICATION.md), which remains authoritative.
+Keep instructions self-contained and check examples against the specification.
+Downstream bundles should import a released skill directory and record its
+version and source commit, rather than maintain independent edits. A bundle
+can lag until its update is reviewed and merged.
+
+---
+
 ## Why Clean Flow?
 
 Existing Git workflows are either **too simple** or **too complex**:
@@ -61,8 +171,8 @@ git checkout -b feature/user-authentication
 ### 3. Work and commit
 
 ```bash
-git add .
-git commit -m "add user authentication system"
+git add path/to/changed-file
+git commit -m "📦 new: add user authentication system"
 ```
 
 ### 4. Keep the feature branch updated
@@ -91,13 +201,12 @@ When approved, squash merge into `dev`. This turns multiple work-in-progress com
 ### 7. Merge dev into main when stable
 
 ```bash
-git checkout main
-git pull origin main
-git merge dev
-git push origin main
+gh pr create --base main --head dev --title "🚀 release: promote completed work"
 ```
 
-Use a regular merge commit to preserve the boundary between integration and stable history.
+After the required checks pass, at least one reviewer approves, and review
+comments are resolved, merge the promotion PR using **Create a merge commit**.
+This preserves the boundary between integration and stable history.
 
 ---
 
@@ -328,8 +437,8 @@ git checkout dev
 git pull origin dev
 git checkout -b feature/user-authentication
 # ... do your work ...
-git add .
-git commit -m "add user authentication system"
+git add path/to/changed-file
+git commit -m "📦 new: add user authentication system"
 git fetch origin
 git rebase origin/dev
 git push -u origin feature/user-authentication
