@@ -16,35 +16,58 @@ A lightweight Git workflow designed to keep the main branch stable while allowin
 
 ## Install the agent skill
 
-Use **Clean Flow** on its own, like the standalone
-[Clean Coding](https://github.com/wgtechlabs/clean-coding) and
-[Clean Code Review](https://github.com/wgtechlabs/clean-code-review) plugins:
+Install **Clean Flow** as a standalone skill for AI assistants. It includes its
+own instructions and works without Clean Workflow or another Clean skill.
+You can also use the convention manually with the guides below.
+
+### Requirements
+
+Use a Codex version with `codex plugin` support; installation and discovery
+were verified with Codex CLI `0.158.0-alpha.2.1`.
+Git is required for branch operations. GitHub operations also need an authenticated GitHub CLI or integration with access to the target repository.
+
+### Install in Codex
+
+Install the stable version from `main`:
 
 ```sh
-codex plugin marketplace add wgtechlabs/clean-flow
+codex plugin marketplace add wgtechlabs/clean-flow --ref main
 codex plugin add clean-flow@clean-flow
+codex plugin list --marketplace clean-flow --json
 ```
 
-Start a new chat and invoke `$clean-flow`, for example:
+Confirm the plugin is installed and enabled, then start a new chat and invoke
+`$clean-flow`. Installation alone does not authorize repository changes.
+
+### Example requests
 
 ```text
-$clean-flow prepare a feature branch and explain the correct PR target
+$clean-flow explain the branch and merge model without changing the repository
+
+$clean-flow prepare a feature branch for issue 42 using this repository's rules
+
+$clean-flow check whether dev is ready for promotion to main without merging
 ```
 
-For another Agent Skills-compatible host, load the entire
-[`skills/clean-flow/`](skills/clean-flow/SKILL.md) folder using that host's skill
-installation mechanism. All essential instructions are included; no other
-Clean skill is required. The host still needs the tools and access used by the
-requested operation. Installation does not authorize repository changes.
+The skill follows the target repository's branch policy, preserves unrelated
+work, and checks review requirements before an authorized merge. In adopting
+repositories, feature PRs target `dev` and promotions target `main`.
 
-[Clean Workflow](https://github.com/wgtechlabs/clean-workflow) is the broader
-bundle for development, review, and Git/delivery guidance. Use this standalone
-plugin when you only want Clean Flow. The new skill is maintained here;
-adding its released versions to that bundle is separate downstream work.
+### Other Agent Skills hosts
 
-### Updates and development installation
+Load the entire [`skills/clean-flow/`](skills/clean-flow/SKILL.md) folder using
+your host's skill installation mechanism. The instructions are self-contained;
+the host must still provide the tools required for the requested operation.
+Other vendors' hosts have not been verified in this repository's test record.
 
-To refresh a Git marketplace and reinstall its plugin:
+[Clean Workflow](https://github.com/wgtechlabs/clean-workflow) provides broader
+development, review, and delivery guidance. Choose this standalone plugin for
+Clean Flow alone. This repository owns the skill; updates to the broader bundle
+are maintained separately.
+
+### Update or remove
+
+Refresh the configured marketplace and reinstall its plugin:
 
 ```sh
 codex plugin marketplace upgrade clean-flow
@@ -52,24 +75,32 @@ codex plugin remove clean-flow@clean-flow
 codex plugin add clean-flow@clean-flow
 ```
 
-Start a new chat after updating. The plugin version in
-`.codex-plugin/plugin.json` versions the installable package separately from
-the convention's specification version. Maintainers should bump the package
-version when releasing skill changes; this addition does not publish a release
-or add automated release infrastructure.
-
-Before a change reaches the default branch, test its feature branch with:
+Start a new chat after updating. To uninstall and remove its marketplace:
 
 ```sh
-codex plugin marketplace add wgtechlabs/clean-flow --ref BRANCH_OR_TAG
+codex plugin remove clean-flow@clean-flow
+codex plugin marketplace remove clean-flow
+```
+
+### Preview development changes
+
+To test `dev` before promotion to `main`, first remove an existing installation
+and same-named marketplace with the commands above, then run:
+
+```sh
+codex plugin marketplace add wgtechlabs/clean-flow --ref dev
 codex plugin add clean-flow@clean-flow
 ```
 
-For local development, replace the marketplace source with the absolute path
-to this checkout. Replace `BRANCH_OR_TAG` with the ref to test. Remove an existing
-same-named marketplace before switching sources. See
-[skill verification](tests/skill-scenarios.md) for installation checks and
-representative behavior scenarios.
+Use another branch or an existing tag instead of `dev` to test a specific ref.
+For local development, use the absolute checkout path as the marketplace source
+and omit `--ref`. Switch back to the stable installation commands after testing.
+See [skill verification](tests/skill-scenarios.md) for recorded installation
+results, behavior scenarios, and verification limits.
+
+The installable package is version `0.1.0`, tracked in
+[`.codex-plugin/plugin.json`](.codex-plugin/plugin.json). The version badge at
+the top of this README refers to the convention specification, not the plugin.
 
 ### Skill ownership
 
@@ -129,8 +160,8 @@ git checkout -b feature/user-authentication
 ### 3. Work and commit
 
 ```bash
-git add .
-git commit -m "add user authentication system"
+git add path/to/changed-file
+git commit -m "📦 new: add user authentication system"
 ```
 
 ### 4. Keep the feature branch updated
@@ -159,13 +190,12 @@ When approved, squash merge into `dev`. This turns multiple work-in-progress com
 ### 7. Merge dev into main when stable
 
 ```bash
-git checkout main
-git pull origin main
-git merge dev
-git push origin main
+gh pr create --base main --head dev --title "🚀 release: promote completed work"
 ```
 
-Use a regular merge commit to preserve the boundary between integration and stable history.
+After the required checks pass, at least one reviewer approves, and review
+comments are resolved, merge the promotion PR using **Create a merge commit**.
+This preserves the boundary between integration and stable history.
 
 ---
 
@@ -396,8 +426,8 @@ git checkout dev
 git pull origin dev
 git checkout -b feature/user-authentication
 # ... do your work ...
-git add .
-git commit -m "add user authentication system"
+git add path/to/changed-file
+git commit -m "📦 new: add user authentication system"
 git fetch origin
 git rebase origin/dev
 git push -u origin feature/user-authentication
